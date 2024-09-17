@@ -12,8 +12,11 @@ contract DeployMain is Script {
     }
 
     function deployMain() public returns (address) {
+        vm.startBroadcast();
         MainV1 main = new MainV1(); // implementation(logic)
         ERC1967Proxy proxy = new ERC1967Proxy(address(main), "");
+        MainV1(address(proxy)).initialize();
+        vm.stopBroadcast();
         return address(proxy);
     }
 }
